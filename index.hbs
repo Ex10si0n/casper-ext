@@ -1,0 +1,83 @@
+{{!< default}}
+{{!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template --}}
+
+<div class="site-header-content outer{{#match @custom.header_style "Left aligned"}} left-aligned{{/match}}{{#unless @custom.show_publication_cover}}{{#match @custom.header_style "Hidden"}} no-content{{/match}}{{/unless}}">
+
+    {{#if @custom.show_publication_cover}}
+        {{#if @site.cover_image}}
+            {{!-- This is a responsive image, it loads different sizes depending on device
+            https://medium.freecodecamp.org/a-guide-to-responsive-images-with-ready-to-use-templates-c400bd65c433 --}}
+            <img class="site-header-cover"
+                srcset="{{img_url @site.cover_image size="s"}} 300w,
+                        {{img_url @site.cover_image size="m"}} 600w,
+                        {{img_url @site.cover_image size="l"}} 1000w,
+                        {{img_url @site.cover_image size="xl"}} 2000w"
+                sizes="100vw"
+                src="{{img_url @site.cover_image size="xl"}}"
+                alt="{{@site.title}}"
+            />
+        {{/if}}
+    {{/if}}
+
+    {{#match @custom.header_style "!=" "Hidden"}}
+        <div class="site-header-inner inner">
+            {{#match @custom.navigation_layout "Logo on cover"}}
+                {{#if @site.logo}}
+                    <img class="site-logo" src="{{@site.logo}}" alt="{{@site.title}}">
+                {{else}}
+                    <h1 class="site-title">{{@site.title}}</h1>
+                {{/if}}
+            {{/match}}
+            {{#if @site.description}}
+                <p class="site-description">{{@site.description}} <span style="font-weight: 500">a graduate student at Carnegie Mellon. Focused on </span> <span style="font-weight: 700" class="auto-type"></span></p>
+            {{/if}}
+            <div class="ext-social">
+                <a href="https://github.com/ex10si0n" class="ext-social-logo">
+                    <img src="{{asset "images/svg/github.svg"}}" alt="GitHub" width="30" height="30">
+                </a>
+                <a href="https://x.com/ex10si0nYan" class="ext-social-logo">
+                    <img src="{{asset "images/svg/x-twitter.svg"}}" alt="X" width="30" height="30">
+                </a>
+<!--                <a href="https://www.youtube.com/@Ex10si0n" class="ext-social-logo">-->
+<!--                    <img src="{{asset "images/svg/youtube.svg"}}" alt="YouTube" width="30" height="30">-->
+<!--                </a>-->
+                <a href="https://t.me/ex10si0n" class="ext-social-logo">
+                    <img src="{{asset "images/svg/telegram.svg"}}" alt="Telegram" width="30" height="30">
+                </a>
+                <a href="https://www.linkedin.com/in/ex10si0n/" class="ext-social-logo">
+                    <img src="{{asset "images/svg/linkedin.svg"}}" alt="Linkedin" width="27" height="27">
+                </a>
+            </div>
+        </div>
+    {{/match}}
+
+</div>
+
+{{!-- The main content area --}}
+<main id="site-main" class="site-main outer">
+<div class="inner posts">
+    <div class="post-feed">
+        {{#foreach posts}}
+            {{!-- The tag below includes the markup for each post - partials/post-card.hbs --}}
+            {{> "post-card"}}
+        {{/foreach}}
+    </div>
+
+    {{pagination}}
+
+</div>
+</main>
+
+<script src="{{asset "js/lib/typed.umd.js"}}"></script>
+<script>
+    var typed = new Typed(".auto-type", {
+        strings: ["ML.", "algorithms.", "full-stack and mobile dev.", "visual designs.", "explaining cool stuffs."],
+        typeSpeed: 50,
+        backSpeed: 50,
+        smartBackspace: true,
+        backDelay: 1000,
+        cursorChar: '▏',
+        loop: true,
+    })
+</script>
